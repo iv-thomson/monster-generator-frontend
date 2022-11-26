@@ -1,5 +1,5 @@
-import { CreatureDTO } from "../models"
-import { Creature, CreatureState } from "../models/Creature"
+import { CreatureDTO } from "@/models"
+import { Creature, CreatureState } from "@/models"
 import { Http } from "./HttpService"
 
 export namespace CreatureService {

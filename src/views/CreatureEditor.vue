@@ -4,7 +4,7 @@ import { onMounted, Ref, ref } from 'vue';
 import { Creature } from '@/models';
 import { CreatureService } from '@/services/CreatureService';
 
-import MonsterFormVue from '@/components/MonsterForm.vue';
+import { MonsterForm } from '@/components';
 
 const items: Ref<Creature[]> = ref([])
 
@@ -27,7 +27,7 @@ onMounted(update)
     <section class="section">
         <div class="container columns is-max-desktop">
             <div class="box panel column is-one-quarter">
-                <MonsterFormVue @submit="update" />
+                <MonsterForm @submit="update" />
             </div>
 
             <div v-if="items.length" class="block column">

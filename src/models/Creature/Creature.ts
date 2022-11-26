@@ -1,4 +1,4 @@
-import { ItemColor } from "./Colors";
+import { ItemColor } from "../Colors";
 import { CreatureDTO } from "./CreatureDTO";
 
 export class CreatureState {
