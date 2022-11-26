@@ -1,21 +1,16 @@
 <script lang="ts" setup>
-import { Ref, ref } from 'vue';
-import { LocationState } from '@/models';
-import { LocationService } from '@/services';
+import { Ref, ref } from "vue";
+import { LocationState } from "@/models";
+import { LocationService } from "@/services";
 
-const state: Ref<LocationState> = ref({
-  name: '',
-  image: '',
-  description: '',
-  creatureIds: [],
-});
+const state: Ref<LocationState> = ref(LocationState.empty());
 
-const emit = defineEmits(['submit']);
+const emit = defineEmits(["submit"]);
 
 const onSubmit = () => {
   LocationService.create(state.value);
 
-  emit('submit');
+  emit("submit");
 };
 </script>
 

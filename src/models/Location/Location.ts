@@ -1,4 +1,4 @@
-import { LocationDTO } from './LocationDTO';
+import { LocationDTO } from "./LocationDTO";
 
 export class LocationState {
   constructor(
@@ -7,6 +7,19 @@ export class LocationState {
     public description: string,
     public creatureIds: string[]
   ) {}
+
+  public static empty(): LocationState {
+    return new LocationState("", "", "", []);
+  }
+
+  public static from(location: LocationDTO | Location): LocationState {
+    return new LocationState(
+      location.name,
+      location.image,
+      location.description,
+      location.creatureIds
+    );
+  }
 }
 
 export class Location {

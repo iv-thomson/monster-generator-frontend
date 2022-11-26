@@ -1,9 +1,9 @@
-import { LocationDTO, Location, LocationState } from '@/models';
+import { LocationDTO, Location, LocationState } from "@/models";
 
-import { Http } from './HttpService';
+import { Http } from "./HttpService";
 
 export namespace LocationService {
-  const baseUrl = 'http://localhost:8080';
+  const baseUrl = "http://localhost:8080";
   const endpoint = `${baseUrl}/location`;
 
   export const list = (): Promise<Location[]> =>
@@ -14,4 +14,7 @@ export namespace LocationService {
 
   export const deleteCreature = (id: string) =>
     Http.deleteRequest(`${endpoint}/${id}`);
+
+  export const updateCreature = (id: string, location: LocationState) =>
+    Http.putRequest(`${endpoint}/${id}`, location);
 }

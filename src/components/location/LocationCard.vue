@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { Location } from '@/models';
+import { Location } from "@/models";
 
 defineProps({
   item: {
     type: Location,
-    required: true,
-  },
+    required: true
+  }
 });
 
-const emits = defineEmits(['delete']);
+const emits = defineEmits(["delete", "edit"]);
 
-const onDelete = (id: string) => emits('delete', id);
+const onDelete = (id: string) => emits("delete", id);
+const onEdit = (id: string) => emits("edit", id);
 </script>
 
 <template>
@@ -26,11 +27,17 @@ const onDelete = (id: string) => emits('delete', id);
       />
     </div>
     <h5 class="title is-5">{{ item.name }}</h5>
-    <div class="block is-flex is-flex-direction-column">
-      <label class="label">Description</label>
-      <span>{{ item.description }}</span>
+    <p>{{ item.description }}</p>
+    <div class="buttons is-right">
+      <button
+        class="button is-outlined is-danger"
+        @click.prevent="onDelete(item.id)"
+      >
+        DELETE
+      </button>
+      <button class="button is-info" @click.prevent="onEdit(item.id)">
+        EDIT
+      </button>
     </div>
-
-    <button class="button is-danger" @click="onDelete(item.id)">DELETE</button>
   </div>
 </template>
