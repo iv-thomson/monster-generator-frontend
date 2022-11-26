@@ -1,2 +1,2 @@
-export * from './CreatureService'
-export * from './LocationService'
+export * from './CreatureService';
+export * from './LocationService';

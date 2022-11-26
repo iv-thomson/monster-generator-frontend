@@ -1,15 +1,17 @@
-import { CreatureDTO } from "@/models"
-import { Creature, CreatureState } from "@/models"
-import { Http } from "./HttpService"
+import { CreatureDTO } from '@/models';
+import { Creature, CreatureState } from '@/models';
+import { Http } from './HttpService';
 
 export namespace CreatureService {
-    const baseUrl = "http://localhost:8080"
-    const endpoint = `${baseUrl}/creature`
+  const baseUrl = 'http://localhost:8080';
+  const endpoint = `${baseUrl}/creature`;
 
-    export const list = (): Promise<Creature[]> => Http.getJson<CreatureDTO[]>(endpoint).then(Creature.from)
+  export const list = (): Promise<Creature[]> =>
+    Http.getJson<CreatureDTO[]>(endpoint).then(Creature.from);
 
-    export const create = (creature: CreatureState) => Http.postJson(endpoint, creature)
+  export const create = (creature: CreatureState) =>
+    Http.postJson(endpoint, creature);
 
-    export const deleteCreature = (id: string) => Http.deleteRequest(`${endpoint}/${id}`)
-
+  export const deleteCreature = (id: string) =>
+    Http.deleteRequest(`${endpoint}/${id}`);
 }

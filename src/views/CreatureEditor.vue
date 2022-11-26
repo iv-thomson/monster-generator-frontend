@@ -6,69 +6,82 @@ import { CreatureService } from '@/services/CreatureService';
 
 import { MonsterForm } from '@/components';
 
-const items: Ref<Creature[]> = ref([])
+const items: Ref<Creature[]> = ref([]);
 
 const update = async () => {
-    items.value = await CreatureService.list()
-}
+  items.value = await CreatureService.list();
+};
 
 const onDelete = async (id: string) => {
-    await CreatureService.deleteCreature(id)
-    console.log('deleted')
-    update()
-}
+  await CreatureService.deleteCreature(id);
+  console.log('deleted');
+  update();
+};
 
-onMounted(update)
-
-
+onMounted(update);
 </script>
 
 <template>
-    <section class="section">
-        <div class="container columns is-max-desktop">
-            <div class="box panel column is-one-quarter">
-                <MonsterForm @submit="update" />
-            </div>
+  <section class="section">
+    <div class="container columns is-max-desktop">
+      <div class="box panel column is-one-quarter">
+        <MonsterForm @submit="update" />
+      </div>
 
-            <div v-if="items.length" class="block column">
-                <ul class="content grid">
-                    <li v-for="item in items">
-                        <div class="box">
-                            <div class="block"
-                                style="border-radius: 60%; overflow: hidden; height: 130px; width: 130px">
-                                <img :src="item.image" alt="creature-preview" style="width: 100%; height: auto" />
-                            </div>
-                            <h6 class="title is-6">{{ item.name }} <span :class="`color-${item.color}`">{{ item.level
-                            }}</span></h6>
-                            <div class="block is-flex is-justify-content-space-between">
-                                <span>Strength</span>
-                                <span>{{ item.strength }}</span>
-                            </div>
-                            <div class="block is-flex is-justify-content-space-between">
-                                <span>Vitality</span>
-                                <span>{{ item.vitality }}</span>
-                            </div>
-                            <div class="block is-flex is-justify-content-space-between">
-                                <span>Dexterity</span>
-                                <span>{{ item.dexterity }}</span>
-                            </div>
-                            <button class="button is-danger" @click="onDelete(item.id)">DELETE</button>
-                        </div>
-                    </li>
-                </ul>
+      <div v-if="items.length" class="block column">
+        <ul class="content grid">
+          <li v-for="item in items" :key="item.id">
+            <div class="box">
+              <div
+                class="block"
+                style="
+                  border-radius: 60%;
+                  overflow: hidden;
+                  height: 130px;
+                  width: 130px;
+                "
+              >
+                <img
+                  :src="item.image"
+                  alt="creature-preview"
+                  style="width: 100%; height: auto"
+                />
+              </div>
+              <h6 class="title is-6">
+                {{ item.name }}
+                <span :class="`color-${item.color}`">{{ item.level }}</span>
+              </h6>
+              <div class="block is-flex is-justify-content-space-between">
+                <span>Strength</span>
+                <span>{{ item.strength }}</span>
+              </div>
+              <div class="block is-flex is-justify-content-space-between">
+                <span>Vitality</span>
+                <span>{{ item.vitality }}</span>
+              </div>
+              <div class="block is-flex is-justify-content-space-between">
+                <span>Dexterity</span>
+                <span>{{ item.dexterity }}</span>
+              </div>
+              <button class="button is-danger" @click="onDelete(item.id)">
+                DELETE
+              </button>
             </div>
-        </div>
-    </section>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
 </template>
 
 <style>
 .grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.grid>li {
-    width: calc(100% / 3 - 16px);
+.grid > li {
+  width: calc(100% / 3 - 16px);
 }
 </style>
