@@ -6,19 +6,27 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
   },
   "dependencies": {
+    "D": "^1.0.0",
     "bulma": "^0.9.4",
+    "eslint": "^8.28.0",
+    "eslint-plugin-vue": "^9.8.0",
     "vue": "^3.2.41",
     "vue-router": "4"
   },
   "devDependencies": {
     "@types/node": "^18.11.9",
     "@types/vue": "^2.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.44.0",
+    "@typescript-eslint/parser": "^5.44.0",
     "@vitejs/plugin-vue": "^3.2.0",
+    "eslint-config-prettier": "^8.5.0",
+    "prettier": "^2.8.0",
     "sass": "^1.56.1",
-    "typescript": "^4.6.4",
+    "typescript": "^4.9.3",
     "vite": "^3.2.3",
     "vue-tsc": "^1.0.9"
   }
