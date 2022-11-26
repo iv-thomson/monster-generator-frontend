@@ -3,5 +3,6 @@ export enum ItemColor {
   Regular = 'regular',
   Rare = 'rare',
   Magic = 'magic',
+  Epic = 'epic',
   Enchanted = 'enchanted',
 }

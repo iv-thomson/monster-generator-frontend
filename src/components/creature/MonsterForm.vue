@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Ref, ref } from 'vue';
-import { CreatureService } from '../services/CreatureService';
-import { CreatureState } from '../models/Creature/Creature';
+import { CreatureService } from '@/services';
+import { CreatureState } from '@/models';
 
 const state: Ref<CreatureState> = ref({
   name: '',

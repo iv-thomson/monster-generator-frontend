@@ -1,5 +1,5 @@
-import { ItemColor } from '../Colors';
-import { CreatureDTO } from './CreatureDTO';
+import { ItemColor } from "../Colors";
+import { CreatureDTO } from "./CreatureDTO";
 
 export class CreatureState {
   constructor(
@@ -27,14 +27,16 @@ export class Creature {
 
   public get color(): ItemColor {
     switch (true) {
-      case this.level < 3:
-        return ItemColor.Cheap;
       case this.level < 10:
-        return ItemColor.Regular;
+        return ItemColor.Cheap;
       case this.level < 20:
-        return ItemColor.Magic;
+        return ItemColor.Regular;
       case this.level < 40:
+        return ItemColor.Magic;
+      case this.level < 80:
         return ItemColor.Enchanted;
+      case this.level < 160:
+        return ItemColor.Epic;
       default:
         return ItemColor.Rare;
     }
