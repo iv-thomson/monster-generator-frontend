@@ -1,78 +1,51 @@
 <script setup lang="ts">
-import { onMounted, Ref, ref } from "vue";
+import { CreatureState } from '@/models';
+import { creatureService } from '@/services';
+import { ConfirmModal } from '@/utils';
 
-import { Creature, CreatureState } from "@/models";
-import { CreatureService } from "@/services/CreatureService";
-import { ConfirmModal } from "@/utils";
+import { MonsterForm, CreatureCard, CreatureCardEditable } from '@/components';
+import UModal from '@/components/ui/UModal.vue';
+import { EditableItemsState } from '@/services/EditableState';
+import { EditorPageState } from '@/services/EditorService';
 
-import { MonsterForm, CreatureCard, CreatureCardEditable } from "@/components";
-import UModal from "@/components/ui/UModal.vue";
+const state = new EditorPageState(creatureService);
+const modal = new ConfirmModal();
+const editableItems = new EditableItemsState(state.items.value);
 
-const items: Ref<Creature[]> = ref([]);
-
-const update = async () => {
-  items.value = await CreatureService.list();
+const onDelete = () => modal.open().onConfirm(state.update);
+const onSave = (id: string, item: CreatureState) => {
+  state.onSave(id, item);
+  editableItems.toggleEditable(id, false);
 };
-
-const confirmDeleteModal = new ConfirmModal();
-
-const onDelete = async (id: string) => {
-  confirmDeleteModal.open().onConfirm(async () => {
-    await CreatureService.deleteCreature(id);
-    update();
-  });
-};
-
-const onSave = async (id: string, creature: CreatureState) => {
-  await CreatureService.updateCreature(id, creature);
-  await update();
-  toggleEditable(id, false);
-};
-
-const editableItemsMap: Ref<Record<string, boolean>> = ref(
-  items.value.reduce((result, item) => ({ ...result, [item.id]: false }), {})
-);
-
-const isEditable = (id: string): boolean => {
-  return editableItemsMap.value[id];
-};
-
-const toggleEditable = (id: string, isActive: boolean): void => {
-  editableItemsMap.value[id] = isActive;
-};
-
-onMounted(update);
 </script>
 
 <template>
   <section class="section creatures">
     <div class="container columns" style="margin: auto">
       <div class="box panel column is-one-quarter">
-        <MonsterForm @submit="update" />
+        <MonsterForm @submit="state.update" />
       </div>
 
-      <div v-if="items.length" class="block column">
+      <div v-if="state.items.value.length" class="block column">
         <ul class="content grid">
-          <li v-for="item in items" :key="item.id">
+          <li v-for="item in state.items.value" :key="item.id">
             <CreatureCardEditable
-              v-if="isEditable(item.id)"
+              v-if="editableItems.isEditable(item.id)"
               :item="item"
               @save="onSave(item.id, $event)"
-              @cancel="toggleEditable(item.id, false)"
+              @cancel="editableItems.toggleEditable(item.id, false)"
             />
             <CreatureCard
               v-else
               :item="item"
               @delete="onDelete"
-              @edit="toggleEditable(item.id, true)"
+              @edit="editableItems.toggleEditable(item.id, true)"
             />
           </li>
         </ul>
       </div>
 
-      <UModal
-        :is-active="confirmDeleteModal.isOpen.value"
-        @close="confirmDeleteModal.decline()"
+      <UModal :is-active="modal.isOpen.value" @close="modal.decline()"
         ><div class="card">
           <header class="card-header">
             <h3 class="card-header-title" style="width: 300px">
@@ -81,19 +54,19 @@ onMounted(update);
           </header>
           <section class="card-content">
             <div class="content">
-              <p>Are you sure you want to delete this creature? This action is irreversible.</p>
+              <p>
+                Are you sure you want to delete this creature? This action is
+                irreversible.
+              </p>
             </div>
           </section>
           <section class="card-footer">
-            <button
-              class="button card-footer-item"
-              @click="confirmDeleteModal.decline"
-            >
+            <button class="button card-footer-item" @click="modal.decline">
               CANCEL
             </button>
             <button
               class="button is-danger card-footer-item"
-              @click="confirmDeleteModal.confirm"
+              @click="modal.confirm"
             >
               CONFIRM
             </button>

@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import { Ref, ref } from "vue";
 import { LocationState } from "@/models";
-import { LocationService } from "@/services";
+import { locationService } from "@/services";
 
 const state: Ref<LocationState> = ref(LocationState.empty());
 
 const emit = defineEmits(["submit"]);
 
 const onSubmit = () => {
-  LocationService.create(state.value);
+  locationService.create(state.value);
 
   emit("submit");
 };

@@ -1,2 +1,1 @@
-export * from './CreatureService';
-export * from './LocationService';
+export * from './crudServices';

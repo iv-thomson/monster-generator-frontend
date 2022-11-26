@@ -6,6 +6,7 @@
       <div class="buttons is-right">
         <router-link to="/admin/creature" class="button">Creatures</router-link>
         <router-link to="/admin/location" class="button">Locations</router-link>
+        <router-link to="/admin/encounter" class="button">Encounters</router-link>
       </div>
     </header>
     <router-view />

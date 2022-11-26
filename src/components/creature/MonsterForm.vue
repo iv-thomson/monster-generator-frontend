@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Ref, ref } from "vue";
-import { CreatureService } from "@/services";
+import { creatureService } from "@/services";
 import { CreatureState } from "@/models";
 
 const state: Ref<CreatureState> = ref(CreatureState.empty());
@@ -8,7 +8,7 @@ const state: Ref<CreatureState> = ref(CreatureState.empty());
 const emit = defineEmits(["submit"]);
 
 const onSubmit = () => {
-  CreatureService.create(state.value);
+  creatureService.create(state.value);
   state.value = CreatureState.empty();
   emit("submit");
 };

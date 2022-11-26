@@ -1,20 +1,22 @@
 <script setup lang="ts">
-import { LocationState } from '@/models';
-import { locationService } from '@/services';
-
-import { LocationForm, LocationCard } from '@/components';
-import { ConfirmModal } from '@/utils';
 import ConfirmModalVue from '@/components/ui/ConfirmModal.vue';
-import LocationCardEditable from '@/components/location/LocationCardEditable.vue';
-import { EditableItemsState } from '@/services/EditableState';
-import { EditorPageState } from '@/services/EditorService';
 
-const state = new EditorPageState(locationService);
+import { encounterService } from '@/services';
+import EncounterForm from '@/components/encounter/EncounterForm.vue';
+import EncounterCard from '@/components/encounter/EncounterCard.vue';
+import EncounterCardEditable from '@/components/encounter/EncounterCardEditable.vue';
+import { EditorPageState } from '@/services/EditorService';
+import { EditableItemsState } from '@/services/EditableState';
+
+import { ConfirmModal } from '@/utils';
+import { EncounterState } from '@/models';
+
+const state = new EditorPageState(encounterService);
 const modal = new ConfirmModal();
 const editableItems = new EditableItemsState(state.items.value);
 
 const onDelete = () => modal.open().onConfirm(state.update);
-const onSave = (id: string, item: LocationState) => {
+const onSave = (id: string, item: EncounterState) => {
   state.onSave(id, item);
   editableItems.toggleEditable(id, false);
 };
@@ -24,19 +26,19 @@ const onSave = (id: string, item: LocationState) => {
   <section class="section locations">
     <div class="container columns" style="margin: auto">
       <div class="box panel column is-one-quarter">
-        <LocationForm @submit="state.update" />
+        <EncounterForm @submit="state.update" />
       </div>
 
-      <div v-if="state.items.value.length" class="block column">
+      <div v-if="state.items.value" class="block column">
         <ul class="content grid">
           <li v-for="item in state.items.value" :key="item.id">
-            <LocationCardEditable
+            <EncounterCardEditable
               v-if="editableItems.isEditable(item.id)"
               :item="item"
               @save="onSave(item.id, $event)"
               @cancel="editableItems.toggleEditable(item.id, false)"
             />
-            <LocationCard
+            <EncounterCard
               v-else
               :item="item"
               @delete="onDelete"
@@ -47,8 +49,8 @@ const onSave = (id: string, item: LocationState) => {
       </div>
     </div>
     <ConfirmModalVue
-      title="Delete location"
-      content="Are you sure you want to delete this location? This action is
+      title="Delete encounter"
+      content="Are you sure you want to delete this encounter? This action is
               irreversible."
       :is-active="modal.isOpen.value"
       @confirm="modal.confirm()"
