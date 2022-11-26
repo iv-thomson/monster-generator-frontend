@@ -1,23 +1,16 @@
 <script lang="ts" setup>
-import { Ref, ref } from 'vue';
-import { CreatureService } from '@/services';
-import { CreatureState } from '@/models';
+import { Ref, ref } from "vue";
+import { CreatureService } from "@/services";
+import { CreatureState } from "@/models";
 
-const state: Ref<CreatureState> = ref({
-  name: '',
-  image: '',
-  strength: 0,
-  vitality: 0,
-  dexterity: 0,
-});
+const state: Ref<CreatureState> = ref(CreatureState.empty());
 
-const emit = defineEmits(['submit']);
+const emit = defineEmits(["submit"]);
 
 const onSubmit = () => {
-  console.log(state.value);
   CreatureService.create(state.value);
-
-  emit('submit');
+  state.value = CreatureState.empty();
+  emit("submit");
 };
 </script>
 

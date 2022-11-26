@@ -23,5 +23,16 @@ export namespace Http {
     });
   };
 
+  export const putRequest = async (endpoint: string, payload: Object): Promise<void> => {
+    await fetch(endpoint, {
+      method: 'PUT',
+      body: JSON.stringify(payload),
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+      },
+    });
+  };
+
   const handleResponse = (response: Response) => response.json();
 }

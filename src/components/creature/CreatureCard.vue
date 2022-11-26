@@ -8,9 +8,10 @@ defineProps({
   }
 });
 
-const emits = defineEmits(["delete"]);
+const emits = defineEmits(["delete", "edit"]);
 
 const onDelete = (id: string) => emits("delete", id);
+const onEdit = (id: string) => emits("edit", id);
 </script>
 
 <template>
@@ -41,6 +42,16 @@ const onDelete = (id: string) => emits("delete", id);
       <span>Dexterity</span>
       <span>{{ item.dexterity }}</span>
     </div>
-    <button class="button is-danger" @click="onDelete(item.id)">DELETE</button>
+    <div class="buttons is-right">
+      <button
+        class="button is-outlined is-danger"
+        @click.prevent="onDelete(item.id)"
+      >
+        DELETE
+      </button>
+      <button class="button is-info" @click.prevent="onEdit(item.id)">
+        EDIT
+      </button>
+    </div>
   </div>
 </template>

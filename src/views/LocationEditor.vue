@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { onMounted, Ref, ref } from 'vue';
+import { onMounted, Ref, ref } from "vue";
 
-import { Location } from '@/models';
-import { LocationService } from '@/services';
+import { Location } from "@/models";
+import { LocationService } from "@/services";
 
-import { LocationForm, LocationCard } from '@/components';
+import { LocationForm, LocationCard } from "@/components";
 
 const items: Ref<Location[]> = ref([]);
 
@@ -14,7 +14,6 @@ const update = async () => {
 
 const onDelete = async (id: string) => {
   await LocationService.deleteCreature(id);
-  console.log('deleted');
   update();
 };
 
@@ -22,7 +21,7 @@ onMounted(update);
 </script>
 
 <template>
-  <section class="section">
+  <section class="section locations">
     <div class="container columns is-max-desktop">
       <div class="box panel column is-one-quarter">
         <LocationForm @submit="update" />
@@ -39,14 +38,16 @@ onMounted(update);
   </section>
 </template>
 
-<style>
-.grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
+<style lang="scss">
+.locations {
+  .grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
 
-.grid > li {
-  width: calc(100% / 2 - 16px);
+  .grid > li {
+    width: calc(100% / 2 - 16px);
+  }
 }
 </style>

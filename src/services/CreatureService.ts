@@ -14,4 +14,8 @@ export namespace CreatureService {
 
   export const deleteCreature = (id: string) =>
     Http.deleteRequest(`${endpoint}/${id}`);
+
+
+  export const updateCreature = (id: string, creature: CreatureState) =>
+  Http.putRequest(`${endpoint}/${id}`, creature);
 }

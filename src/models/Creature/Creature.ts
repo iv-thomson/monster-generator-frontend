@@ -9,6 +9,14 @@ export class CreatureState {
     public vitality: number,
     public dexterity: number
   ) {}
+
+  public static empty(): CreatureState {
+    return new CreatureState('', '', 0, 0, 0)
+  }
+
+  public static from(creature: CreatureDTO | Creature): CreatureState {
+    return new CreatureState(creature.name, creature.image, creature.strength, creature.vitality, creature.dexterity)
+  }
 }
 
 export class Creature {
