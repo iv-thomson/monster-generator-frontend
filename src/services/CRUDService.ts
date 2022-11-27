@@ -1,16 +1,25 @@
-import { Http } from "./HttpService";
-import { Identifiable } from "@/models";
+import { Http } from './HttpService';
+import { Identifiable } from '@/models';
+
+interface Params {
+  id: string[];
+}
 
 export class CRUDService<T extends Identifiable, P, S extends Object> {
-  private baseUrl: string = "http://localhost:8080";
+  private baseUrl: string = 'http://localhost:8080';
   private endpoint: string;
 
   constructor(endpoint: string, private factory: (p: P[]) => T[]) {
-    this.endpoint = this.baseUrl + "/" + endpoint;
+    this.endpoint = this.baseUrl + '/' + endpoint;
   }
 
-  public list = (): Promise<T[]> =>
-    Http.getJson<P[]>(this.endpoint).then(this.factory);
+  public list = (params?: Params): Promise<T[]> => {
+    const paramsString = params ? parseArrayParams('id', params.id) : '';
+
+    return Http.getJson<P[]>(`${this.endpoint}?${paramsString}`).then(
+      this.factory
+    );
+  };
 
   public create = (creature: S) => Http.postJson(this.endpoint, creature);
 
@@ -19,3 +28,9 @@ export class CRUDService<T extends Identifiable, P, S extends Object> {
   public update = (id: string, creature: S) =>
     Http.putRequest(`${this.endpoint}/${id}`, creature);
 }
+
+const parseArrayParams = (key: string, items: string[]): string => {
+  return items
+    .reduce<string>((result, item) => `${result}&${key}=${item}`, '')
+    .replace('&', '');
+};

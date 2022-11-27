@@ -13,7 +13,7 @@ const state = new EditorPageState(locationService);
 const modal = new ConfirmModal();
 const editableItems = new EditableItemsState(state.items.value);
 
-const onDelete = () => modal.open().onConfirm(state.update);
+const onDelete = (id: string) => modal.open().onConfirm(() => state.delete(id));
 const onSave = (id: string, item: LocationState) => {
   state.onSave(id, item);
   editableItems.toggleEditable(id, false);

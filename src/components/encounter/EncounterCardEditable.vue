@@ -1,21 +1,27 @@
 <script setup lang="ts">
-import { ref, Ref } from "vue";
+import { onMounted, ref, Ref } from 'vue';
 
-import { Encounter, EncounterState } from "@/models";
+import { Creature, Encounter, EncounterState } from '@/models';
+import { creatureService } from '@/services';
 
 const props = defineProps({
   item: {
     type: Encounter,
-    required: true
-  }
+    required: true,
+  },
 });
 
-const emits = defineEmits(["save", "cancel"]);
+const emits = defineEmits(['save', 'cancel']);
 
 const state: Ref<EncounterState> = ref(EncounterState.from(props.item));
+const creatures: Ref<Creature[]> = ref([]);
 
-const onSave = () => emits("save", state.value);
-const onCancel = () => emits("cancel");
+onMounted(async () => {
+  creatures.value = await creatureService.list();
+});
+
+const onSave = () => emits('save', state.value);
+const onCancel = () => emits('cancel');
 </script>
 
 <template>
@@ -28,6 +34,23 @@ const onCancel = () => emits("cancel");
     <div class="field">
       <label class="label">Description</label>
       <textarea v-model="state.description" class="input"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="label">Creatures</label>
+      <div class="select is-multiple">
+        <select v-model="state.creatures" multiple size="8">
+          <option
+            v-for="creature in creatures"
+            :key="creature.id"
+            :value="creature.id"
+          >
+            {{ creature.name }}
+
+            ({{ creature.level }})
+          </option>
+        </select>
+      </div>
     </div>
 
     <div class="buttons is-right">

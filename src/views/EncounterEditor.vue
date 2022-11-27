@@ -15,9 +15,9 @@ const state = new EditorPageState(encounterService);
 const modal = new ConfirmModal();
 const editableItems = new EditableItemsState(state.items.value);
 
-const onDelete = () => modal.open().onConfirm(state.update);
-const onSave = (id: string, item: EncounterState) => {
-  state.onSave(id, item);
+const onDelete = (id: string) => modal.open().onConfirm(() => state.delete(id));
+const onSave = async (id: string, item: EncounterState) => {
+  await state.onSave(id, item);
   editableItems.toggleEditable(id, false);
 };
 </script>

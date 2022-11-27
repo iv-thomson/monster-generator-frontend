@@ -1,17 +1,27 @@
 <script setup lang="ts">
-import { Encounter } from "@/models";
+import { Creature, Encounter } from '@/models';
+import { ItemColor } from '@/models/Colors';
+import { creatureService } from '@/services';
+import { onMounted, Ref, ref } from 'vue';
+import { CreaturePreview } from '..';
 
-defineProps({
+const props = defineProps({
   item: {
     type: Encounter,
-    required: true
-  }
+    required: true,
+  },
 });
 
-const emits = defineEmits(["delete", "edit"]);
+const emits = defineEmits(['delete', 'edit']);
 
-const onDelete = (id: string) => emits("delete", id);
-const onEdit = (id: string) => emits("edit", id);
+const creatures: Ref<Creature[]> = ref([]);
+
+const onDelete = (id: string) => emits('delete', id);
+const onEdit = (id: string) => emits('edit', id);
+
+onMounted(async () => {
+  creatures.value = await creatureService.list({ id: props.item.creatures });
+});
 </script>
 
 <template>
@@ -21,6 +31,15 @@ const onEdit = (id: string) => emits("edit", id);
     </h6>
 
     <p>{{ item.description }}</p>
+
+    <label>Creatures:</label>
+    <div class="is-flex is-flex-direction-column mt-4">
+      <CreaturePreview
+        v-for="creature in creatures"
+        :key="creature.id"
+        :item="creature"
+      />
+    </div>
 
     <div class="buttons is-right">
       <button

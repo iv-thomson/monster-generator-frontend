@@ -12,7 +12,7 @@ const state = new EditorPageState(creatureService);
 const modal = new ConfirmModal();
 const editableItems = new EditableItemsState(state.items.value);
 
-const onDelete = () => modal.open().onConfirm(state.update);
+const onDelete = (id: string) => modal.open().onConfirm(() => state.delete(id));
 const onSave = (id: string, item: CreatureState) => {
   state.onSave(id, item);
   editableItems.toggleEditable(id, false);

@@ -17,9 +17,9 @@ export class EditorPageState<T extends Identifiable, P, S extends Object> {
     this.items.value = await this.service.list();
   }
 
-  public async delete(id: string) {
+  public async delete(id: string): Promise<void> {
     await this.service.delete(id);
-    this.update();
+    await this.update();
   }
 
   public async onSave(id: string, location: S) {
