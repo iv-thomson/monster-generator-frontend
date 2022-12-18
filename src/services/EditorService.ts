@@ -2,10 +2,10 @@ import { Identifiable } from '@/models';
 import { onMounted, ref, Ref } from 'vue';
 import { CRUDService } from './CRUDService';
 
-export class EditorPageState<T extends Identifiable, P, S extends Object> {
-  public items: Ref<T[]> = ref([]);
+export class EditorPageState<Item extends Identifiable, DTO, State extends Object> {
+  public items: Ref<Item[]> = ref([]);
 
-  public constructor(private service: CRUDService<T, P, S>) {
+  public constructor(private service: CRUDService<Item, DTO, State>) {
     this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
     this.onSave = this.onSave.bind(this);
@@ -22,7 +22,7 @@ export class EditorPageState<T extends Identifiable, P, S extends Object> {
     await this.update();
   }
 
-  public async onSave(id: string, location: S) {
+  public async onSave(id: string, location: State) {
     await this.service.update(id, location);
     await this.update();
   }

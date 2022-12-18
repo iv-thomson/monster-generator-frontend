@@ -14,3 +14,18 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
 
 You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+
+## Backlog
+#### Infrastructure
+- Connect database
+- Implement users and authentication
+
+#### Features BE
+- Save map editing results
+- Save map coordinates (add anchor lock)
+- Implement encounter card draw
+- Implement tags for encounters
+- Implement levels for encounters and level boundaries for adventure cells
+#### Features FE
+- Implement readonly map viewer
+- Implement selection between maps

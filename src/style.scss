@@ -3,3 +3,8 @@ $background: #3f364b;
 // Overrides
 @import '../node_modules/bulma/bulma.sass';
 @import 'styles/index.scss';
+
+.map-editor-sidebar {
+  height: 60vh;
+  overflow: auto;
+}
