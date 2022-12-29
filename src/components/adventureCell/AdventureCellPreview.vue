@@ -5,6 +5,7 @@ import { Creature, Encounter, EncounterDTO, Location } from '@/models';
 import { creatureService, encounterService, locationService } from '@/services';
 import { AdventureCellState } from '@/models/Adventure/AdventureCell';
 import { CreaturePreview } from '@/components';
+import { AdventureCellInterface } from '@/models/Adventure/AnventureCellModel';
 
 class EncounterFull implements Encounter {
     constructor(public name: string, public description: string, public creatures: string[], public items: string[], public id: string, public creaturesListFull: Creature[]) { }
@@ -16,13 +17,17 @@ class EncounterFull implements Encounter {
 
 const props = defineProps({
     item: {
-        type: AdventureCellState,
+        type: Object as PropType<AdventureCellInterface>,
         required: true,
     },
     neighbours: {
-        type: Array as PropType<AdventureCellState[]>,
+        type: Array as PropType<AdventureCellInterface[]>,
         default: () => [],
     },
+    hasControls: {
+        default: false,
+        type: Boolean
+    }
 })
 const emit = defineEmits(['edit', 'createNew'])
 
@@ -68,6 +73,6 @@ const onEdit = () => emit('edit')
             </div>
         </div>
 
-        <button class="button" @click="onEdit">Edit</button>
+        <button v-if="hasControls" class="button" @click="onEdit">Edit</button>
     </div>
 </template>

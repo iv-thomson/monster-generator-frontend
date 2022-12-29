@@ -9,6 +9,9 @@
         <router-link to="/admin/encounter" class="button">Encounters</router-link>
         <router-link to="/admin/map-editor" class="button">Map Editor</router-link>
       </div>
+      <div class="buttons is-right">
+        <router-link to="/map" class="button">Map preview</router-link>
+      </div>
     </header>
     <router-view />
   </main>

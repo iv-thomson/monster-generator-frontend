@@ -6,7 +6,7 @@ import Hexagon from "./Hexagon";
 import { emitter, EventName } from './EventBus'
 
 import { toD3Format } from "@/services/LocationGraph";
-import { AdventureCellState } from "@/models";
+import { AdventureCellInterface } from "@/models/Adventure/AnventureCellModel";
 
 const root = ref(null);
 
@@ -15,7 +15,7 @@ let simulation: ForceSimulation;
 const props = defineProps({
   items: {
     required: true,
-    type: Array as PropType<AdventureCellState[]>
+    type: Array as PropType<AdventureCellInterface[]>
   }
 })
 
@@ -24,6 +24,9 @@ const emit = defineEmits(['select'])
 onMounted(() => {
   simulation = new ForceSimulation(root.value);
   simulation.templateStore.add("hexagon", Hexagon);
+
+
+  simulation.render(toD3Format(props.items));
 
   emitter.on(EventName.CellClicked, onSelect)
 });

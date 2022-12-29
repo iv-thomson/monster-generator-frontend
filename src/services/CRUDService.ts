@@ -21,12 +21,18 @@ export class CRUDService<Item extends Identifiable, DTO, State extends Object> {
     );
   };
 
+  public get = (id: string): Promise<Item> => {
+    return Http.getJson<DTO>(`${this.endpoint}/${id}`).then(this.singleItemFactory);
+  };
+
   public create = (creature: State) => Http.postJson(this.endpoint, creature);
 
   public delete = (id: string) => Http.deleteRequest(`${this.endpoint}/${id}`);
 
   public update = (id: string, creature: State) =>
     Http.putRequest(`${this.endpoint}/${id}`, creature);
+
+  private singleItemFactory = (item: DTO): Item => this.factory([item])[0];
 }
 
 const parseArrayParams = (key: string, items: string[]): string => {

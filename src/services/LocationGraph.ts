@@ -6,18 +6,19 @@ import {
 } from '@livereader/graphly-d3';
 import type { Link, Node } from '@livereader/graphly-d3';
 import { AdventureCellState } from '@/models';
+import { AdventureCellInterface } from '@/models/Adventure/AnventureCellModel';
 
 export interface D3Graph {
   nodes: D3LocationNode[];
   links: D3LocationLink[];
 }
 
-export const toD3Format = (list: AdventureCellState[]): D3Graph => {
+export const toD3Format = (list: AdventureCellInterface[]): D3Graph => {
   return {
     nodes: list.map(
       (item, index) =>
         new D3LocationNode(
-          item.key,
+          item.id,
           150,
           index * 10,
           item.location?.name,
@@ -27,7 +28,7 @@ export const toD3Format = (list: AdventureCellState[]): D3Graph => {
     ),
     links: list.reduce<D3LocationLink[]>((result, node) => {
       const nodeLinks = node.neighbours.map(
-        (id) => new D3LocationLink(node.key, id)
+        (id) => new D3LocationLink(node.id, id)
       );
 
       return [...result, ...nodeLinks];

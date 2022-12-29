@@ -16,7 +16,7 @@ export class AdventureMapState {
   constructor(public cells: AdventureCellState[]) {}
 
   public deleteCell(key: string): AdventureMapState {
-    return new AdventureMapState(this.cells.filter((cell) => cell.key !== key));
+    return new AdventureMapState(this.cells.filter((cell) => cell.id !== key));
   }
 
   public updateCell(cell: AdventureCellState): AdventureMapState {
@@ -37,10 +37,10 @@ export class AdventureMapState {
     existing: AdventureCellState,
     newCell: AdventureCellState
   ): AdventureCellState {
-    if (existing.key === newCell.key) {
+    if (existing.id === newCell.id) {
       return newCell;
-    } else if (newCell.neighbours.includes(existing.key)) {
-      const neighboursWithoutDuplicates = Array.from(new Set([...existing.neighbours, newCell.key]))
+    } else if (newCell.neighbours.includes(existing.id)) {
+      const neighboursWithoutDuplicates = Array.from(new Set([...existing.neighbours, newCell.id]))
       return existing.updateNeighbours(neighboursWithoutDuplicates);
     } else {
       return existing;

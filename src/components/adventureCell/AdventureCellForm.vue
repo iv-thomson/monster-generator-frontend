@@ -34,10 +34,10 @@ const onSubmit = () => {
 };
 
 const onDelete = () => {
-    emit('delete', state.value.key);
+    emit('delete', state.value.id);
 }
 
-const filteredNeighbours = computed(() => props.neighbours.filter(cell => cell.key !== state.value.key))
+const filteredNeighbours = computed(() => props.neighbours.filter(cell => cell.id !== state.value.id))
 
 onMounted(async () => {
     locations.value = await locationService.list();
@@ -67,7 +67,7 @@ onMounted(async () => {
             <label class="label">neighbours</label>
             <div class="select is-multiple">
                 <select v-model="state.neighbours" multiple>
-                    <option v-for="neighbour in filteredNeighbours" :key="neighbour.key" :value="neighbour.key">
+                    <option v-for="neighbour in filteredNeighbours" :key="neighbour.id" :value="neighbour.id">
                         {{ neighbour.location?.name }}
                     </option>
                 </select>

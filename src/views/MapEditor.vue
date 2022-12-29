@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Ref, computed } from 'vue'
+import { Ref, computed, watch } from 'vue'
 import { AdventureCellState, AdventureMapState, LocationState } from '@/models';
 
 import { ConfirmModal } from '@/utils';
@@ -8,23 +8,35 @@ import AdventureCellForm from '@/components/adventureCell/AdventureCellForm.vue'
 import { ref } from 'vue';
 import MapGraphPreview from '@/components/adventureCell/graph/MapGraphPreview.vue';
 import AdventureCellPreview from '@/components/adventureCell/AdventureCellPreview.vue';
+import { adventureMapService } from '@/services';
+import { router } from '@/router';
+import { useRoute } from 'vue-router';
+
 
 const mapState = ref(AdventureMapState.empty());
 const selectedCell: Ref<AdventureCellState | undefined> = ref()
 const modal = new ConfirmModal();
 
-const onDelete = (id: string) => modal.open().onConfirm(() => { });
-const onSave = (id: string, item: LocationState) => {
-    // state.onSave(id, item);
-};
-
 const isEditable = ref(true)
 const neighbours = computed(() => mapState.value.cells)
+
+
+const route = useRoute()
+
+const id = computed(() => route.params.id as string)
+const isUpdateMode = computed(() => Boolean(id.value))
+
+watch(() => id.value, async () => {
+    mapState.value = isUpdateMode.value ? AdventureMapState.from(await adventureMapService.get(id.value)) : AdventureMapState.empty()
+}, {
+    immediate: true
+})
+
 
 const onCellCLick = (cellId: string) => {
     isEditable.value = false;
 
-    const cellState = mapState.value.cells.find(existing => existing.key === cellId)
+    const cellState = mapState.value.cells.find(existing => existing.id === cellId)
     if (!cellState) { return }
     selectedCell.value = cellState.clone()
 }
@@ -34,7 +46,7 @@ const onDeleteCell = (key: string) => {
 }
 
 const onUpdateCell = (cell: AdventureCellState) => {
-    if (mapState.value.cells.some((existing => existing.key == cell.key))) {
+    if (mapState.value.cells.some((existing => existing.id == cell.id))) {
         mapState.value = mapState.value.updateCell(cell)
         isEditable.value = false;
         selectedCell.value = cell;
@@ -48,6 +60,14 @@ const onUpdateCell = (cell: AdventureCellState) => {
 const onCreateNew = () => {
     selectedCell.value = undefined
     isEditable.value = true
+}
+
+const onSave = () => {
+    adventureMapService.create(mapState.value);
+};
+
+const onUpdate = () => {
+    adventureMapService.update(id.value, mapState.value)
 }
 </script>
 
@@ -66,15 +86,21 @@ const onCreateNew = () => {
                     <AdventureCellForm v-if="isEditable" :initial="selectedCell" :neighbours="neighbours"
                         @submit="onUpdateCell" @delete="onDeleteCell" />
                     <AdventureCellPreview v-else-if="selectedCell" :item="selectedCell" @edit="isEditable = true"
-                        @createNew="onCreateNew" />
+                        has-controls @createNew="onCreateNew" />
                 </div>
             </div>
 
             <div class="column">
                 <MapGraphPreview :items="mapState.cells" @select="onCellCLick" />
+
+                <div class="buttons is-right mt-4">
+                    <button v-if="isUpdateMode" class="button" @click="onUpdate">update</button>
+                    <button v-else class="button" @click="onSave">Save</button>
+                </div>
             </div>
 
         </div>
+
         <ConfirmModalVue title="Delete cell" content="Are you sure you want to delete this cell? This action is
               irreversible." :is-active="modal.isOpen.value" @confirm="modal.confirm()" @decline="modal.decline()" />
     </section>

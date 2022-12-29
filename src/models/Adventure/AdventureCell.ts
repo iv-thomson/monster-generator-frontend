@@ -1,15 +1,16 @@
 import { Location } from '@/models/location/location';
 
 import { AdventureCellDTO } from './AdventureCellDTO';
+import { AdventureCellInterface } from './AnventureCellModel';
 
-export class AdventureCellState {
+export class AdventureCellState implements AdventureCellInterface {
   constructor(
     public location: Location | null = null,
     public description: string,
     public neighbours: string[],
     public encounterThreshold: number = 0,
     public encounters: string[] = [],
-    public key: string = Date.now().toString(16) +
+    public id: string = Date.now().toString(16) +
       Math.random().toString(16).slice(8)
   ) {}
 
@@ -20,7 +21,7 @@ export class AdventureCellState {
       this.neighbours,
       this.encounterThreshold,
       this.encounters,
-      this.key
+      this.id
     );
   }
 
@@ -31,7 +32,7 @@ export class AdventureCellState {
       neighbours,
       this.encounterThreshold,
       this.encounters,
-      this.key
+      this.id
     );
   }
 
@@ -47,7 +48,8 @@ export class AdventureCellState {
       adventureCell.description,
       adventureCell.neighbours,
       adventureCell.encounterThreshold,
-      adventureCell.encounters
+      adventureCell.encounters,
+      adventureCell.id
     );
   }
 }
