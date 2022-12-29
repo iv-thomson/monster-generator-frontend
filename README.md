@@ -21,11 +21,13 @@ You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/
 - Implement users and authentication
 
 #### Features BE
-- Save map editing results
+- <del>Save map editing results</del>
 - Save map coordinates (add anchor lock)
 - Implement encounter card draw
 - Implement tags for encounters
 - Implement levels for encounters and level boundaries for adventure cells
 #### Features FE
-- Implement readonly map viewer
-- Implement selection between maps
+- <del>Implement readonly map viewer</del>
+- Support names for maps
+- Improve selection between maps UI
+- Player dashboard
