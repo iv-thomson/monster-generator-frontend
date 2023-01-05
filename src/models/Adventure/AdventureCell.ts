@@ -64,6 +64,28 @@ export class AdventureCell {
     public id: string
   ) {}
 
+  public addEncounter(encoutnerId: string): AdventureCell {
+    return new AdventureCell(
+      this.location,
+      this.description,
+      this.neighbours,
+      this.encounterThreshold,
+      this.encounters.concat(encoutnerId),
+      this.id
+    );
+  }
+
+  public removeEncounter(encoutnerId: string): AdventureCell {
+    return new AdventureCell(
+      this.location,
+      this.description,
+      this.neighbours,
+      this.encounterThreshold,
+      this.encounters.filter((encounter) => encounter !== encoutnerId),
+      this.id
+    );
+  }
+
   public static from(cells: AdventureCellDTO[]) {
     return cells.map(
       (c) =>

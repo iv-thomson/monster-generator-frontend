@@ -29,7 +29,7 @@ const props = defineProps({
         type: Boolean
     }
 })
-const emit = defineEmits(['edit', 'createNew'])
+const emit = defineEmits(['edit', 'createNew', 'remove'])
 
 const encounters: Ref<EncounterFull[]> = ref([])
 
@@ -44,6 +44,8 @@ watch(() => props.item, async () => {
 const getCreatures = (creatureIds: string[]) => creatureService.list({ id: creatureIds })
 
 const onEdit = () => emit('edit')
+
+const onRemove = (id: string) => emit('remove', id)
 
 </script>
 
@@ -66,7 +68,10 @@ const onEdit = () => emit('edit')
 
 
         <div v-for="encounter in encounters" :key="encounter.id" :value="encounter.id">
-            <h6 class="title is-6">{{ encounter.name }}</h6>
+            <h5 class="encounter-title title is-5">
+                {{ encounter.name }}
+                <button class="button is-small" @click="onRemove(encounter.id)">x</button>
+            </h5>
             <p>{{ encounter.description }}</p>
             <div class="is-flex is-flex-direction-column mt-4">
                 <CreaturePreview v-for="creature in encounter.creaturesListFull" :key="creature.id" :item="creature" />
@@ -76,3 +81,18 @@ const onEdit = () => emit('edit')
         <button v-if="hasControls" class="button" @click="onEdit">Edit</button>
     </div>
 </template>
+
+<style>
+.encounter-title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.encounter-title .button {
+    visibility: hidden;
+}
+
+.encounter-title:hover .button {
+    visibility: visible;
+}
+</style>

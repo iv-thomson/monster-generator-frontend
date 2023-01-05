@@ -41,6 +41,8 @@ const onSave = async (id: string, item: EncounterState) => {
             <EncounterCard
               v-else
               :item="item"
+              class="box"
+              has-controls
               @delete="onDelete"
               @edit="editableItems.toggleEditable(item.id, true)"
             />

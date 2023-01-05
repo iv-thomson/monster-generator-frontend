@@ -1,1 +1,2 @@
-export * from "./ConfigmModal";
+export * from './ConfigmModal';
+export * from './random';

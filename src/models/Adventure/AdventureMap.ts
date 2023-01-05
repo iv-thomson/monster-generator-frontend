@@ -1,9 +1,34 @@
+import { Encounter } from '../Encounter/Encounter';
 import { Identifiable } from '../Identifiable';
 import { AdventureCell, AdventureCellState } from './AdventureCell';
 import { AdventureMapDTO } from './AdventureCellDTO';
 
 export class AdventureMap implements Identifiable {
   constructor(public cells: AdventureCell[], public id: string) {}
+
+  public addEncounterToCell(
+    cellId: string,
+    encounter: Encounter
+  ): AdventureMap {
+    return new AdventureMap(
+      this.cells.map((cell) =>
+        cell.id === cellId ? cell.addEncounter(encounter.id) : cell
+      ),
+      this.id
+    );
+  }
+
+  public removeEncounterFromCell(
+    cellId: string,
+    encounterId: string
+  ): AdventureMap {
+    return new AdventureMap(
+      this.cells.map((cell) =>
+        cell.id === cellId ? cell.removeEncounter(encounterId) : cell
+      ),
+      this.id
+    );
+  }
 
   public static from(adventureMapDTOs: AdventureMapDTO[]): AdventureMap[] {
     return adventureMapDTOs.map(
@@ -40,7 +65,9 @@ export class AdventureMapState {
     if (existing.id === newCell.id) {
       return newCell;
     } else if (newCell.neighbours.includes(existing.id)) {
-      const neighboursWithoutDuplicates = Array.from(new Set([...existing.neighbours, newCell.id]))
+      const neighboursWithoutDuplicates = Array.from(
+        new Set([...existing.neighbours, newCell.id])
+      );
       return existing.updateNeighbours(neighboursWithoutDuplicates);
     } else {
       return existing;
