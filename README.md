@@ -17,17 +17,20 @@ You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/
 
 ## Backlog
 #### Infrastructure
-- Connect database
+- Connect database [HIGH PRIORITY]
 - Implement users and authentication
 
 #### Features BE
 - <del>Save map editing results</del>
 - Save map coordinates (add anchor lock)
-- Implement encounter card draw
+- Move encounter card draw logic to BE
 - Implement tags for encounters
 - Implement levels for encounters and level boundaries for adventure cells
+- BIG FEATURE: create a room that is shared between players with websockets (decompose this)
 #### Features FE
 - <del>Implement readonly map viewer</del>
+- <del>Implement encounter card draw [FE]</del>
 - Support names for maps
 - Improve selection between maps UI
 - Player dashboard
+- Responsiveness
