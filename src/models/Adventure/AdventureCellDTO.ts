@@ -3,6 +3,7 @@ import { Location, LocationDTO } from '@/models';
 export interface AdventureMapDTO {
   cells: AdventureCellDTO[],
   id: string;
+  name: string;
 }
 
 

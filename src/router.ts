@@ -8,6 +8,7 @@ import MapEditorVue from './views/MapEditor.vue';
 
 import MapListView from './views/MapListView.vue';
 import MapItemView from './views/MapItemView.vue';
+import MapHubViewVue from './views/MapHubView.vue';
 
 const routes = [
   { path: '/', component: HomeVue },
@@ -16,6 +17,7 @@ const routes = [
   { path: '/admin/creature', component: CreatureEditorVue },
   { path: '/admin/location', component: LocationEditorVue },
   { path: '/admin/encounter', component: EncounterEditorVue },
+  { path: '/admin/maps', component: MapHubViewVue },
   { path: '/admin/map-editor', component: MapEditorVue },
   { path: '/admin/map-editor/:id', component: MapEditorVue },
 ];

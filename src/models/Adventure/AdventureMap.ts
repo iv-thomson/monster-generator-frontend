@@ -4,7 +4,11 @@ import { AdventureCell, AdventureCellState } from './AdventureCell';
 import { AdventureMapDTO } from './AdventureCellDTO';
 
 export class AdventureMap implements Identifiable {
-  constructor(public cells: AdventureCell[], public id: string) {}
+  constructor(
+    public cells: AdventureCell[],
+    public id: string,
+    public name: string
+  ) {}
 
   public addEncounterToCell(
     cellId: string,
@@ -14,7 +18,8 @@ export class AdventureMap implements Identifiable {
       this.cells.map((cell) =>
         cell.id === cellId ? cell.addEncounter(encounter.id) : cell
       ),
-      this.id
+      this.id,
+      this.name
     );
   }
 
@@ -26,27 +31,32 @@ export class AdventureMap implements Identifiable {
       this.cells.map((cell) =>
         cell.id === cellId ? cell.removeEncounter(encounterId) : cell
       ),
-      this.id
+      this.id,
+      this.name
     );
   }
 
   public static from(adventureMapDTOs: AdventureMapDTO[]): AdventureMap[] {
     return adventureMapDTOs.map(
-      (item) => new AdventureMap(AdventureCell.from(item.cells), item.id)
+      (item) => new AdventureMap(AdventureCell.from(item.cells), item.id, item.name),
     );
   }
 }
 
 export class AdventureMapState {
-  constructor(public cells: AdventureCellState[]) {}
+  constructor(public cells: AdventureCellState[], public name: string) {}
 
   public deleteCell(key: string): AdventureMapState {
-    return new AdventureMapState(this.cells.filter((cell) => cell.id !== key));
+    return new AdventureMapState(
+      this.cells.filter((cell) => cell.id !== key),
+      this.name
+    );
   }
 
   public updateCell(cell: AdventureCellState): AdventureMapState {
     return new AdventureMapState(
-      this.cells.map((existing) => this.getUpdatedCell(existing, cell))
+      this.cells.map((existing) => this.getUpdatedCell(existing, cell)),
+      this.name
     );
   }
 
@@ -54,7 +64,8 @@ export class AdventureMapState {
     return new AdventureMapState(
       this.cells
         .map((existing) => this.getUpdatedCell(existing, cell))
-        .concat(cell)
+        .concat(cell),
+      this.name
     );
   }
 
@@ -75,14 +86,15 @@ export class AdventureMapState {
   }
 
   public static empty(): AdventureMapState {
-    return new AdventureMapState([]);
+    return new AdventureMapState([], '');
   }
 
   public static from(
     adventureMap: AdventureMapDTO | AdventureMap
   ): AdventureMapState {
     return new AdventureMapState(
-      adventureMap.cells.map((c) => AdventureCellState.from(c))
+      adventureMap.cells.map((c) => AdventureCellState.from(c)),
+      adventureMap.name
     );
   }
 }

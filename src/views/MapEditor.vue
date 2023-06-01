@@ -9,8 +9,7 @@ import { ref } from 'vue';
 import MapGraphPreview from '@/components/adventureCell/graph/MapGraphPreview.vue';
 import AdventureCellPreview from '@/components/adventureCell/AdventureCellPreview.vue';
 import { adventureMapService } from '@/services';
-import { router } from '@/router';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 
 const mapState = ref(AdventureMapState.empty());
@@ -20,7 +19,7 @@ const modal = new ConfirmModal();
 const isEditable = ref(true)
 const neighbours = computed(() => mapState.value.cells)
 
-
+const router = useRouter()
 const route = useRoute()
 
 const id = computed(() => route.params.id as string)
@@ -62,17 +61,35 @@ const onCreateNew = () => {
     isEditable.value = true
 }
 
-const onSave = () => {
-    adventureMapService.create(mapState.value);
+const onSave = async () => {
+    try {
+        await adventureMapService.create(mapState.value);
+        router.push('/admin/maps')
+    } catch {
+        console.log('err')
+    }
 };
 
-const onUpdate = () => {
-    adventureMapService.update(id.value, mapState.value)
+const onUpdate = async () => {
+    try {
+        await adventureMapService.update(id.value, mapState.value)
+        router.push('/admin/maps')
+    } catch {
+        console.log('err')
+    }
 }
 </script>
 
 <template>
     <section class="section locations">
+        <div class="container">
+            <form class="form card box">
+                <div class="field">
+                    <label class="label">Name</label>
+                    <input v-model="mapState.name" class="input" />
+                </div>
+            </form>
+        </div>
         <div class="container columns is-flex-align-items-stretch" style="margin: auto; min-height: 60vh">
             <div class="column is-one-quarter">
                 <header v-if="!isEditable"
