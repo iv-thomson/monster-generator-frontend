@@ -17,7 +17,7 @@ You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/
 
 ## Backlog
 #### Infrastructure
-- Connect database [HIGH PRIORITY]
+- <del>Connect database [HIGH PRIORITY]</del>
 - Implement users and authentication
 
 #### Features BE
@@ -30,7 +30,7 @@ You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/
 #### Features FE
 - <del>Implement readonly map viewer</del>
 - <del>Implement encounter card draw [FE]</del>
-- Support names for maps
-- Improve selection between maps UI
+- <del>Support names for maps</del>
+- <del>Improve selection between maps UI</del>
 - Player dashboard
 - Responsiveness
