@@ -10,8 +10,8 @@ const creatures: Ref<Creature[]> = ref([]);
 
 const emit = defineEmits(['submit']);
 
-const onSubmit = () => {
-  encounterService.create(state.value);
+const onSubmit = async () => {
+  await encounterService.create(state.value);
   state.value = EncounterState.empty();
   emit('submit');
 };

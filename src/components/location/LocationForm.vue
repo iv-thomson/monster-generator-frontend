@@ -7,8 +7,8 @@ const state: Ref<LocationState> = ref(LocationState.empty());
 
 const emit = defineEmits(["submit"]);
 
-const onSubmit = () => {
-  locationService.create(state.value);
+const onSubmit = async () => {
+  await locationService.create(state.value);
 
   emit("submit");
 };

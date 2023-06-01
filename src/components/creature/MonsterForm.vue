@@ -7,8 +7,8 @@ const state: Ref<CreatureState> = ref(CreatureState.empty());
 
 const emit = defineEmits(["submit"]);
 
-const onSubmit = () => {
-  creatureService.create(state.value);
+const onSubmit = async () => {
+  await creatureService.create(state.value);
   state.value = CreatureState.empty();
   emit("submit");
 };
